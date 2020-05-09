@@ -9,14 +9,21 @@ import Navigation from "./components/Navigation"
 import Login from "./components/Login"
 import Home from "./components/Home"
 import NewQuestion from "./components/NewQuestion"
+import QuestionAnswer from "./components/QuestionAnswer"
 
-//1. mindahin 
+// mindahin Nav
+// answer not answer sorting time
+// mindahin ke reducer
+// fixing layout
+// create kasih notifikasi
+// login ga diisi belum kehandle
+
 class App extends Component {
   componentDidMount() {
     this.props.dispatch(handleInitialData())
   }
 
-  // Redirect for is user logged in
+  // Redirect is user logged in
   renderRedirect = () => {
     const isLogin = localStorage.getItem('loggedin')
     if (isLogin !== null) {
@@ -38,6 +45,7 @@ class App extends Component {
           <Route exact path='/' component={Home} />
           <Route exact path='/add' component={NewQuestion} />
           <Route exact path='/leaderboard' component={Home} />
+          <Route exact path='/question/:id' component={QuestionAnswer} />
         </div>
       )
     }else{

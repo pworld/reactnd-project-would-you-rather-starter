@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import {Container, Row, Button, Col} from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { getUser } from '../utils/helpers'
@@ -14,10 +15,11 @@ class Questions extends Component {
 
     return (
       <Container>
+        <Link to={`/question/${questionAnswered.id}`} className='tweet'>
         <Row className="justify-content-md-center">
           <Col md={{ span: 3}} className="app-container-list">
             <img
-              src={`https://robohash.org/${questionAnswered.id}`}
+              src={`https://robohash.org/${userDetail.id}`}
               alt={`${userDetail.name}`}
               className='avatar'
             />
@@ -27,10 +29,11 @@ class Questions extends Component {
             <div className="app-container-component">
               <p className="justify-content-md-center">Would You Rather:</p>
               <p>{getTextAnswerPool}</p>
-              <Button variant="primary" type='submit'>View Pool</Button>
+              <Button variant="primary">View Pool</Button>
             </div>
           </Col>
         </Row>
+        </Link>
       </Container>
     )
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Container, Row, Button, Col} from 'react-bootstrap';
+import {Container, Row, Button, Col, Form } from 'react-bootstrap';
 import { connect } from 'react-redux'
 
 import { handleAddQuestion } from '../actions/questions'
@@ -45,31 +45,36 @@ class NewQuestions extends Component {
     return (
       <Container>
         <Row className="justify-content-md-center">
-          <Col md={{ span: 9, offset: 3}} className="app-container-list">
-          <h1>Create New Questions</h1>
-            <form className='' onSubmit={this.handleSubmit}>
-              <Row>
-                <input
-                  placeholder="What's happening?"
-                  value={optionOne}
-                  onChange={this.handleChangeOptionOne}
-                />
-              </Row>
-              <Row>
-                <input
-                  placeholder="What's happening?"
-                  value={optionTwo}
-                  onChange={this.handleChangeOptionTwo}
-                />
-              </Row>
-              <Row>
-                <Button
-                  type='submit'
-                  disabled={optionOne === '' && optionTwo === ''}>
-                    Submit
-                </Button>
-              </Row>
-            </form>
+          <Col className="app-container-list">
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Group as={Row}>
+                <Form.Label>
+                Create New Questions
+                </Form.Label>
+              </Form.Group>
+
+              <fieldset>
+                <Form.Group as={Row}>
+                  <Form.Label as="legend" column sm={2}>
+                    Option 1
+                  </Form.Label>
+                  <Col sm={10}>
+                    <Form.Control type="text" placeholder="Normal text" value={optionOne} onChange={this.handleChangeOptionOne} />
+                  </Col>
+                </Form.Group>
+                <Form.Group as={Row}>
+                  <Form.Label as="legend" column sm={2}>
+                    Option 2
+                  </Form.Label>
+                  <Col sm={10}>
+                    <Form.Control type="text" placeholder="Normal text" value={optionTwo} onChange={this.handleChangeOptionTwo} />
+                  </Col>
+                </Form.Group>
+                <Form.Group as={Row}>
+                <Button type='submit' disabled={optionOne === '' && optionTwo === ''}>Submit</Button>
+                </Form.Group>
+              </fieldset>
+            </Form>
           </Col>
         </Row>
       </Container>
