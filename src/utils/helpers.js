@@ -4,6 +4,16 @@ export function formatDate (timestamp) {
   return time.substr(0, 5) + time.slice(-2) + ' | ' + d.toLocaleDateString()
 }
 
+export function getUser (userID, users) {
+  let selectUser = {}
+  for (let key in users) {
+    if(users[key].id === userID){
+      selectUser = users[key]
+    }
+  }
+  return selectUser
+}
+
 // export function formatTweet (tweet, author, authedUser, parentTweet) {
 //   const { id, likes, replies, text, timestamp } = tweet
 //   const { name, avatarURL } = author

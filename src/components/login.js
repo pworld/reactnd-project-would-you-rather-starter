@@ -4,6 +4,7 @@ import Select from 'react-select';
 import {Container, Row, Button} from 'react-bootstrap';
 
 import { stateLogin } from '../actions/authedUser'
+import { getUser } from '../utils/helpers'
 
 import logo from '../logo.svg'
 
@@ -13,18 +14,19 @@ class Login extends Component {
   }
   handleChange = selectedOption => {
     this.setState(
-      { selectedOption },
-      () => console.log(`Option selected:`, this.state.selectedOption)
+      { selectedOption }
     );
   }
-  handleSubmit = (e) => {
+  handleSubmit = (e,selectUsers) => {
     e.preventDefault()
 
     const { selectedOption } = this.state
-    const { dispatch } = this.props
+    const { dispatch, users } = this.props
 
-    dispatch(stateLogin(selectedOption.value))
-    localStorage.setItem('loggedin',selectedOption.value)
+    const user = getUser(selectedOption.value, users)
+
+    dispatch(stateLogin(user))
+    localStorage.setItem('loggedin',JSON.stringify(user))
     this.props.history.push('/')
   }
   render() {
@@ -43,7 +45,7 @@ class Login extends Component {
           <img src={logo} className="App-logo" alt="logo" />
         </Row>
         <Row>
-        <form className='new-tweet' onSubmit={this.handleSubmit}>
+        <form className='new-tweet' onSubmit={(e) => this.handleSubmit(e,selectUsers)}>
           <Select
             value={selectedOption}
             onChange={this.handleChange}
