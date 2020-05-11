@@ -9,8 +9,6 @@ export const ADD_ANSWER = 'ADD_ANSWER'
 export const ADD_USER_ANSWER = 'ADD_USER_ANSWER'
 export const RECEIVE_QUESTIONS_ANSWERED = 'RECEIVE_QUESTIONS_ANSWERED'
 export const RECEIVE_QUESTIONS_NOT_ANSWERED = 'RECEIVE_QUESTIONS_NOT_ANSWERED'
-export const ADD_QUESTIONS_NOT_ANSWERED = 'ADD_QUESTIONS_NOT_ANSWERED'
-export const ADD_QUESTIONS_ANSWERED = 'ADD_QUESTIONS_ANSWERED'
 
 function addQuestion (question) {
   return {
@@ -56,21 +54,6 @@ export function receiveQuestionsNotAnswered (questionsNotAnswered) {
   }
 }
 
-export function AddQuestionsAnswered (answeredQuestions, qid) {
-  return {
-    type: ADD_QUESTIONS_ANSWERED,
-    answeredQuestions,
-    qid
-  }
-}
-
-export function AddQuestionsNotAnswered (questionsNotAnswered) {
-  return {
-    type: ADD_QUESTIONS_NOT_ANSWERED,
-    questionsNotAnswered,
-  }
-}
-
 export function handleAddQuestion (optionOneText, optionTwoText, author) {
   return (dispatch, getState) => {
     const { questionsCategory } = getState()
@@ -110,7 +93,13 @@ export function handleAddAnswer (authedUser, qid, answer) {
         // Push to props answered and not answered category
         const newQuestion = res.questions[qid]
         questionsCategory.answered.push(newQuestion)
+
+        // Remove answered question from not answered category
+        const questionsCategoryNA = questionsCategory.notAnswered.filter(qc => qc.id !== qid)
+        questionsCategory.notAnswered = questionsCategoryNA
+
         sortTime(questionsCategory.answered)
+        sortTime(questionsCategory.notAnswered)
 
         // Push to props Authenticated user
         const userLoggedin = res.users[authedUser]
