@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import {Container, Row, Button, Col, Form } from 'react-bootstrap'
-import { Redirect } from 'react-router-dom'
+import {Container, Row, Button, Col, Form } from 'react-bootstrap';
 import { connect } from 'react-redux'
 
 import { handleAddQuestion } from '../../actions/questions'
@@ -40,8 +39,6 @@ class NewQuestions extends Component {
       optionOne: '',
       optionTwo: '',
     }))
-
-    return  <Redirect  to="/" />
   }
   render() {
     const { optionOne, optionTwo } = this.state

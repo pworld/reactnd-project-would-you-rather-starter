@@ -66,9 +66,9 @@ export function handleAddQuestion (optionOneText, optionTwoText, author) {
     .then((question) => {
 
       // Push to props answered and not answered category
-      questionsCategory.notAnswered.push(question)
+      questionsCategory.unAnswered.push(question)
       sortTime(questionsCategory.answered)
-      sortTime(questionsCategory.notAnswered)
+      sortTime(questionsCategory.unAnswered)
 
       // Push to props Questions
       dispatch(addQuestion(question))
@@ -90,16 +90,16 @@ export function handleAddAnswer (authedUser, qid, answer) {
         dispatch(addAnswer(res))
         dispatch(addUserAnswer(res))
 
-        // Push to props answered and not answered category
+        // Push to props answered category
         const newQuestion = res.questions[qid]
         questionsCategory.answered.push(newQuestion)
 
         // Remove answered question from not answered category
-        const questionsCategoryNA = questionsCategory.notAnswered.filter(qc => qc.id !== qid)
-        questionsCategory.notAnswered = questionsCategoryNA
+        const questionsCategoryNA = questionsCategory.unAnswered.filter(qc => qc.id !== qid)
+        questionsCategory.unAnswered = questionsCategoryNA
 
         sortTime(questionsCategory.answered)
-        sortTime(questionsCategory.notAnswered)
+        sortTime(questionsCategory.unAnswered)
 
         // Push to props Authenticated user
         const userLoggedin = res.users[authedUser]

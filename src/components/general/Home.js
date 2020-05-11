@@ -7,33 +7,30 @@ import Questions from '../questions/Questions'
 class Home extends Component {
   
   render() {
-    const {questionsCategory} = this.props
+    const {questionsCategory,history} = this.props
 
     return (
       <div>
 
         <Tabs defaultActiveKey="not_answered" id="uncontrolled-tab-example">
-          <Tab eventKey="answered" title="Answered Questions">
-
-              <ul className='dashboard-list'>
-                { questionsCategory.answered && questionsCategory.answered.map((qa) => (
-                  <li key={qa.id}>
-                    <Questions questionAnswered={qa}/>
-                  </li>
-                ))}
-              </ul>
-
-          </Tab>
-          <Tab eventKey="not_answered" title="Not Answered Questions">
-
+          <Tab eventKey="not_answered" title="Unanswered Questions">
             <ul className='dashboard-list'>
-              {questionsCategory.notAnswered && questionsCategory.notAnswered.map((qan) => (
+              {questionsCategory.unAnswered && questionsCategory.unAnswered.map((qan) => (
                 <li key={qan.id}>
-                  <Questions questionAnswered={qan}/>
+                  <Questions questionAnswered={qan} history={history}/>
                 </li>
               ))}
             </ul>
+          </Tab>
 
+          <Tab eventKey="answered" title="Answered Questions">
+              <ul className='dashboard-list'>
+                { questionsCategory.answered && questionsCategory.answered.map((qa) => (
+                  <li key={qa.id}>
+                    <Questions questionAnswered={qa} history={history} />
+                  </li>
+                ))}
+              </ul>
           </Tab>
         </Tabs>
       </div>

@@ -26,6 +26,7 @@ class QuestionAnswer extends Component {
     const { dispatch, authedUser } = this.props
 
     dispatch(handleAddAnswer(authedUser.id, qid, answer))
+    this.props.history.push(`/pool/${qid}`)
   }
 
   render() {

@@ -12,7 +12,7 @@ class Navigation extends Component {
 
     this.props.dispatch(stateLogin(null))
     localStorage.clear()
-    this.props.history.push('/')
+    this.props.history.push('/login')
   }
 
   render() {

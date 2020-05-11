@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom'
 import {Container, Row, Button, Col} from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { getUser } from '../../utils/helpers'
 
 class Questions extends Component {
-  handleClick(e) {
+  handleClick(e, id) {
     e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
-    return <Redirect to='/leaderboard' />
+    this.props.history.push(`/question/${id}`)
   }
 
   render() {
@@ -16,12 +14,11 @@ class Questions extends Component {
     const {questionAnswered, users} = this.props
     const userDetail = getUser(questionAnswered.author, users)
 
-    const getTextAnswerPool = questionAnswered.optionOne.votes.filter(qa => qa === questionAnswered.author) ?
+    const getTextAnswerPool = questionAnswered.optionOne.votes.filter(qa => qa === questionAnswered.author).length > 0 ?
       questionAnswered.optionOne.text : questionAnswered.optionTwo.text
 
     return (
       <Container>
-        <Link to={`/question/${questionAnswered.id}`} className='app-container-component'>
         <Row className="justify-content-md-center app-container-list-home">
           <Col md={{ span: 3}} className="app-container-list-avatar">
             <img
@@ -34,11 +31,10 @@ class Questions extends Component {
             <div className="app-container-component">
               <p className="justify-content-md-center">{userDetail.name} asks, Would You Rather:</p>
               <p>{getTextAnswerPool}</p>
-              <Button variant="primary" onClick={(e) => this.handleClick(e)}>View Pool</Button>
+              <Button variant="primary" onClick={(e) => this.handleClick(e, questionAnswered.id)}>View Pool</Button>
             </div>
           </Col>
         </Row>
-        </Link>
       </Container>
     )
   }

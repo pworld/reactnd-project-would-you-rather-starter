@@ -8,6 +8,8 @@ import Login from "./general/Login"
 import Home from "./general/Home"
 import NewQuestion from "./questions/NewQuestion"
 import QuestionAnswer from "./questions/QuestionAnswer"
+import Pool from "./questions/Pool"
+import Leaderboard from "./leaderboard/Leaderboard"
 
 class AppComponent extends Component {
 
@@ -22,8 +24,9 @@ class AppComponent extends Component {
           <Route render={({ history }) => ( <Navigation history={history} /> )} /> 
           <Route exact path='/' component={Home} />
           <Route exact path='/add' component={NewQuestion} />
-          <Route exact path='/leaderboard' component={Home} />
+          <Route exact path='/leaderboard' component={Leaderboard} />
           <Route exact path='/question/:id' component={QuestionAnswer} />
+          <Route exact path='/pool/:id' component={Pool} />
         </div>
       )
     }else{

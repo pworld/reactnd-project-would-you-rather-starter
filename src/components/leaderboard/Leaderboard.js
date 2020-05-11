@@ -1,36 +1,41 @@
 import React, { Component } from 'react'
-import {Container, Row, Button, Col} from 'react-bootstrap';
+import {Container, Row, Col} from 'react-bootstrap';
 import { connect } from 'react-redux'
-import { getUser } from '../../utils/helpers'
+import { leaderboardsFormat } from '../../utils/helpers'
 
 class Leaderboard extends Component {
   render() {
     
-    const {questionAnswered, users} = this.props
-    const userDetail = getUser(questionAnswered.author, users)
-
-    const getTextAnswerPool = questionAnswered.optionOne.votes.filter(qa => qa === questionAnswered.author) ?
-      questionAnswered.optionOne.text : questionAnswered.optionTwo.text
+    const {users} = this.props
+    const leaderboards = leaderboardsFormat(users)
 
     return (
       <Container>
-        <Row className="justify-content-md-center">
-          <Col md={{ span: 3}} className="app-container-list">
-            <img
-              src={`https://robohash.org/${questionAnswered.id}`}
-              alt={`${userDetail.name}`}
-              className='avatar'
-            />
-          </Col>
-          <Col md={{ span: 9}} className="app-container-list">
-            <span>{userDetail.name} asks:</span>
-            <div className="app-container-component">
-              <p className="justify-content-md-center">Would You Rather:</p>
-              <p>{getTextAnswerPool}</p>
-              <Button variant="primary" type='submit'>View Pool</Button>
-            </div>
-          </Col>
-        </Row>
+
+        {leaderboards && leaderboards.map((leaderboard) => (
+
+          <Row className="justify-content-md-center" key={leaderboard.id}>
+            <Col md={{ span: 3}} className="app-container-list">
+              <img
+                src={`https://robohash.org/${leaderboard.id}`}
+                alt={`${leaderboard.name}`}
+                className='avatar'
+              />
+            </Col>
+            <Col md={{ span: 6}} className="app-container-list">
+              <span>{leaderboard.name} asks:</span>
+              <div className="app-container-component">
+                <p className="justify-content-md-center">Answeres Questions: {leaderboard.answeredQuestion}</p>
+                <p className="justify-content-md-center">Created Questions: {leaderboard.createdQuestion}</p>
+              </div>
+            </Col>
+            <Col md={{ span: 3}} className="app-container-list">
+              <p className="justify-content-md-center">Total Score:</p>
+              <p className="app-container-score">{leaderboard.total}</p>
+            </Col>
+          </Row>
+
+        ))}
       </Container>
     )
   }
