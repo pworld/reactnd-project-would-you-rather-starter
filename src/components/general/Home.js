@@ -2,14 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Tabs, Tab } from 'react-bootstrap'
 
-import Questions from './Questions'
+import Questions from '../questions/Questions'
 
 class Home extends Component {
   
   render() {
-    const {questionsAnswered, questions} = this.props
-
-    const questionsNotAnswered = Object.values(questions).filter(x => !questionsAnswered.includes(x))
+    const {questionsCategory} = this.props
 
     return (
       <div>
@@ -18,7 +16,7 @@ class Home extends Component {
           <Tab eventKey="answered" title="Answered Questions">
 
               <ul className='dashboard-list'>
-                {questionsAnswered.map((qa) => (
+                { questionsCategory.answered && questionsCategory.answered.map((qa) => (
                   <li key={qa.id}>
                     <Questions questionAnswered={qa}/>
                   </li>
@@ -27,9 +25,9 @@ class Home extends Component {
 
           </Tab>
           <Tab eventKey="not_answered" title="Not Answered Questions">
-            <ul className='dashboard-list'>
 
-              {questionsNotAnswered.map((qan) => (
+            <ul className='dashboard-list'>
+              {questionsCategory.notAnswered && questionsCategory.notAnswered.map((qan) => (
                 <li key={qan.id}>
                   <Questions questionAnswered={qan}/>
                 </li>
@@ -43,16 +41,9 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps ({ authedUser, questions }) {
+function mapStateToProps ({ questionsCategory }) {
   return {
-    authedUser,questions,
-    questionsAnswered: Object.values(questions).filter(question => {
-      const myQuestion = Object.keys(authedUser.answers).filter(answer => { return answer === question.id})
-      if(myQuestion.length > 0){
-        return myQuestion[0] === question.id ? question : null
-      }
-      return null
-    }),
+    questionsCategory
   }
 }
 

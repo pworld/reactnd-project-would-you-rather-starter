@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import {Container, Row, Button, Col} from 'react-bootstrap';
 import { connect } from 'react-redux'
-import { getUser } from '../utils/helpers'
+import { getUser } from '../../utils/helpers'
 
 class Questions extends Component {
+  handleClick(e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    return <Redirect to='/leaderboard' />
+  }
+
   render() {
     
     const {questionAnswered, users} = this.props
@@ -15,21 +21,20 @@ class Questions extends Component {
 
     return (
       <Container>
-        <Link to={`/question/${questionAnswered.id}`} className='tweet'>
-        <Row className="justify-content-md-center">
-          <Col md={{ span: 3}} className="app-container-list">
+        <Link to={`/question/${questionAnswered.id}`} className='app-container-component'>
+        <Row className="justify-content-md-center app-container-list-home">
+          <Col md={{ span: 3}} className="app-container-list-avatar">
             <img
               src={`https://robohash.org/${userDetail.id}`}
               alt={`${userDetail.name}`}
               className='avatar'
             />
           </Col>
-          <Col md={{ span: 9}} className="app-container-list">
-            <span>{userDetail.name} asks:</span>
+          <Col md={{ span: 9}} className="app-container-list-content">
             <div className="app-container-component">
-              <p className="justify-content-md-center">Would You Rather:</p>
+              <p className="justify-content-md-center">{userDetail.name} asks, Would You Rather:</p>
               <p>{getTextAnswerPool}</p>
-              <Button variant="primary">View Pool</Button>
+              <Button variant="primary" onClick={(e) => this.handleClick(e)}>View Pool</Button>
             </div>
           </Col>
         </Row>

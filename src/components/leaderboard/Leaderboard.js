@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Container, Row, Button, Col} from 'react-bootstrap';
 import { connect } from 'react-redux'
-import { getUser } from '../utils/helpers'
+import { getUser } from '../../utils/helpers'
 
 class Leaderboard extends Component {
   render() {

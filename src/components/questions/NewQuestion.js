@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import {Container, Row, Button, Col, Form } from 'react-bootstrap';
+import {Container, Row, Button, Col, Form } from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { handleAddQuestion } from '../actions/questions'
+import { handleAddQuestion } from '../../actions/questions'
 
 class NewQuestions extends Component {
 
@@ -39,6 +40,8 @@ class NewQuestions extends Component {
       optionOne: '',
       optionTwo: '',
     }))
+
+    return  <Redirect  to="/" />
   }
   render() {
     const { optionOne, optionTwo } = this.state
@@ -59,7 +62,7 @@ class NewQuestions extends Component {
                     Option 1
                   </Form.Label>
                   <Col sm={10}>
-                    <Form.Control type="text" placeholder="Normal text" value={optionOne} onChange={this.handleChangeOptionOne} />
+                    <Form.Control type="text" placeholder="Option One" value={optionOne} onChange={this.handleChangeOptionOne} />
                   </Col>
                 </Form.Group>
                 <Form.Group as={Row}>
@@ -67,11 +70,11 @@ class NewQuestions extends Component {
                     Option 2
                   </Form.Label>
                   <Col sm={10}>
-                    <Form.Control type="text" placeholder="Normal text" value={optionTwo} onChange={this.handleChangeOptionTwo} />
+                    <Form.Control type="text" placeholder="Option Two" value={optionTwo} onChange={this.handleChangeOptionTwo} />
                   </Col>
                 </Form.Group>
                 <Form.Group as={Row}>
-                <Button type='submit' disabled={optionOne === '' && optionTwo === ''}>Submit</Button>
+                <Button type='submit' disabled={optionOne === '' && optionTwo === '' && optionOne === optionTwo}>Submit</Button>
                 </Form.Group>
               </fieldset>
             </Form>

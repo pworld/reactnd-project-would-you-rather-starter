@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import {Container, Row, Button, Col, Form } from 'react-bootstrap';
 import { connect } from 'react-redux'
 
-import { handleAddAnswer } from '../actions/questions'
+import { handleAddAnswer } from '../../actions/questions'
 
 class QuestionAnswer extends Component {
 
   state = {
-    answer: '',
+    answer: 'optionOne',
     qid:  this.props.location.pathname.replace("/question/", "")
   }
 
@@ -29,22 +29,22 @@ class QuestionAnswer extends Component {
   }
 
   render() {
-    const {authedUser, questions} = this.props
+    const {questions} = this.props
     const questionID = this.state.qid
     const question = questions[questionID]
   
     return (
       <Container>
 
-        <Row className="justify-content-md-center">
-          <Col md={{ span: 3}} className="app-container-list">
+        <Row className="justify-content-md-center app-container-list">
+          <Col md={{ span: 3}}>
             <img
-              src={`https://robohash.org/${authedUser.id}`}
-              alt={`${authedUser.name}`}
+              src={`https://robohash.org/${question.author}`}
+              alt={`${question.author}`}
               className='avatar'
             />
           </Col>
-          <Col md={{ span: 9}} className="app-container-list">
+          <Col md={{ span: 9}}>
             <Form>
               <Form.Group as={Row}>
                 <Form.Label>
@@ -65,6 +65,7 @@ class QuestionAnswer extends Component {
                       id="answer"
                       value="optionOne" 
                       onChange={this.onSiteChanged}
+                      checked={true}
                     />
                     <Form.Check
                       type="radio"

@@ -10,6 +10,11 @@ a {
   color: #252525;
 }
 
+a:hover {
+  color: black;
+  text-decoration: none;
+}
+
 .container {
   margin: 0 auto;
   padding: 10px;
@@ -46,13 +51,22 @@ li {
 
 .avatar {
   margin-left: 10px;;
-  height: 100px;
+  height: 135px;
   border-radius: 25px;
   margin: 10px;
   border-style: solid;
 }
 
 /* app container */
+
+.nav-app-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
 .app-container {
   width: 100%;
   max-width: 590px;
@@ -128,7 +142,6 @@ li {
 .textarea {
   border-radius: 4px;
   border: 1px solid #dad7d7;
-  : 10px;
   font-size: 15px;
   height: 100px;
 }
@@ -141,13 +154,37 @@ li {
 }
 
 .app-container-list {
-  border-radius: 4px;
-  border: solid #d7d7da;
+  border-radius: 10px;
+  border: solid #7f7f87;
   padding: 30px;
   margin-top: 10px;
   margin-bottom:10 px;
 }
 
+/* Home Page */
+.app-container-list-home {
+  border-radius: 10px;
+  border: solid #7f7f87;
+}
+
+.app-container-list-home:hover {
+  border-radius: 10px;
+  border: solid #1a1a1b;
+}
+
+.app-container-list-avatar {
+  border-right: solid #7f7f87;
+  padding: 30px;
+  margin-bottom:10 px;
+}
+
+.app-container-list-content {
+  padding: 30px;
+  margin-bottom:10 px;
+}
+
+
+/* Home Page */
 .app-container-component {
   border-radius: 0.5px;
 }

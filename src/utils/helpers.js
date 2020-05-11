@@ -14,22 +14,18 @@ export function getUser (userID, users) {
   return selectUser
 }
 
-// export function formatTweet (tweet, author, authedUser, parentTweet) {
-//   const { id, likes, replies, text, timestamp } = tweet
-//   const { name, avatarURL } = author
+export function objArr (data) {
+  let obj = {}
+  for (let index = 0; index < data.length; index++) {
+    const singleObj = data[index]
+    obj[singleObj.id] = singleObj
+  }
+  return obj
+}
 
-//   return {
-//     name,
-//     id,
-//     timestamp,
-//     text,
-//     avatar: avatarURL,
-//     likes: likes.length,
-//     replies: replies.length,
-//     hasLiked: likes.includes(authedUser),
-//     parent: !parentTweet ? null : {
-//       author: parentTweet.author,
-//       id: parentTweet.id,
-//     }
-//   }
-// }
+export function sortTime (data) {
+
+  const newSortingArray = data.sort((a,b) => b.timestamp - a.timestamp)
+
+  return newSortingArray
+}

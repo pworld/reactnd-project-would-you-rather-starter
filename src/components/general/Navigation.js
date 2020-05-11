@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import {Nav} from 'react-bootstrap';
 
-import { stateLogin } from '../actions/authedUser'
+import { stateLogin } from '../../actions/authedUser'
 
 class Navigation extends Component {
 
@@ -26,7 +26,7 @@ class Navigation extends Component {
         <li><NavLink to='/add' >New Questions</NavLink></li>
         <li><NavLink to='/leaderboard' >Leaderboard</NavLink></li>
       </ul>
-      <ul className="navbar-nav flex-row-reverse">
+      <ul className="navbar-nav">
         <li><span>Welcome, {authedUser.name}</span></li>
         <li><a href='/' onClick={(e) => this.handleClick(e)}>Signout</a></li>
       </ul>

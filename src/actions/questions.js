@@ -1,11 +1,16 @@
 import { saveQuestion, saveQuestionAnswer } from '../utils/api'
 import { setAuthedUser } from '../actions/authedUser'
 import { showLoading, hideLoading } from 'react-redux-loading'
+import { sortTime } from '../utils/helpers'
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const ADD_QUESTION = 'ADD_QUESTION'
 export const ADD_ANSWER = 'ADD_ANSWER'
 export const ADD_USER_ANSWER = 'ADD_USER_ANSWER'
+export const RECEIVE_QUESTIONS_ANSWERED = 'RECEIVE_QUESTIONS_ANSWERED'
+export const RECEIVE_QUESTIONS_NOT_ANSWERED = 'RECEIVE_QUESTIONS_NOT_ANSWERED'
+export const ADD_QUESTIONS_NOT_ANSWERED = 'ADD_QUESTIONS_NOT_ANSWERED'
+export const ADD_QUESTIONS_ANSWERED = 'ADD_QUESTIONS_ANSWERED'
 
 function addQuestion (question) {
   return {
@@ -30,44 +35,106 @@ function addUserAnswer (res) {
   }
 }
 
-function resAnswer (res, authedUser, dispatch) {
-  dispatch(addAnswer(res))
-  dispatch(addUserAnswer(res))
+export function receiveQuestions (questions) {
+  return {
+    type: RECEIVE_QUESTIONS,
+    questions,
+  }
+}
 
-  const userLoggedin = res.users[authedUser]
-  dispatch(setAuthedUser(userLoggedin))
-  localStorage.setItem('loggedin',JSON.stringify(userLoggedin))
+export function receiveQuestionsAnswered (answeredQuestions) {
+  return {
+    type: RECEIVE_QUESTIONS_ANSWERED,
+    answeredQuestions,
+  }
+}
+
+export function receiveQuestionsNotAnswered (questionsNotAnswered) {
+  return {
+    type: RECEIVE_QUESTIONS_NOT_ANSWERED,
+    questionsNotAnswered,
+  }
+}
+
+export function AddQuestionsAnswered (answeredQuestions, qid) {
+  return {
+    type: ADD_QUESTIONS_ANSWERED,
+    answeredQuestions,
+    qid
+  }
+}
+
+export function AddQuestionsNotAnswered (questionsNotAnswered) {
+  return {
+    type: ADD_QUESTIONS_NOT_ANSWERED,
+    questionsNotAnswered,
+  }
 }
 
 export function handleAddQuestion (optionOneText, optionTwoText, author) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { questionsCategory } = getState()
 
     dispatch(showLoading())
 
     const info = {optionOneText, optionTwoText, author}
 
     return saveQuestion(info)
-      .then((question) => dispatch(addQuestion(question)))
-      .then(() => dispatch(hideLoading()))
+    .then((question) => {
+
+      // Push to props answered and not answered category
+      questionsCategory.notAnswered.push(question)
+      sortTime(questionsCategory.answered)
+      sortTime(questionsCategory.notAnswered)
+
+      // Push to props Questions
+      dispatch(addQuestion(question))
+    }).then(() => dispatch(hideLoading()))
   }
 }
 
 export function handleAddAnswer (authedUser, qid, answer) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { questionsCategory } = getState()
 
     dispatch(showLoading())
 
     const info = {authedUser, qid, answer}
 
     return saveQuestionAnswer(info)
-      .then((res) => resAnswer(res, authedUser, dispatch))
+      .then((res) => {
+        // Push to props Questions and props User Answer
+        dispatch(addAnswer(res))
+        dispatch(addUserAnswer(res))
+
+        // Push to props answered and not answered category
+        const newQuestion = res.questions[qid]
+        questionsCategory.answered.push(newQuestion)
+        sortTime(questionsCategory.answered)
+
+        // Push to props Authenticated user
+        const userLoggedin = res.users[authedUser]
+        dispatch(setAuthedUser(userLoggedin))
+        localStorage.setItem('loggedin',JSON.stringify(userLoggedin))
+      })
       .then(() => dispatch(hideLoading()))
   }
 }
 
-export function receiveQuestions (questions) {
-  return {
-    type: RECEIVE_QUESTIONS,
-    questions,
+export function handleAnsweredQuestion (authedUser, questions) {
+  return (dispatch) => {
+    // Get Category Answered
+    const questionsAnswered = Object.values(questions).filter(question => {
+      const myQuestion = Object.keys(authedUser.answers).filter(answer => { return answer === question.id})
+      if(myQuestion.length > 0){
+        return myQuestion[0] === question.id ? question : null
+      }
+      return null
+    })
+    // Get Category Not Answered
+    const questionsNotAnswered = Object.values(questions).filter(x => !questionsAnswered.includes(x))
+
+    dispatch(receiveQuestionsAnswered(sortTime(questionsAnswered)))
+    dispatch(receiveQuestionsNotAnswered(sortTime(questionsNotAnswered)))
   }
 }
