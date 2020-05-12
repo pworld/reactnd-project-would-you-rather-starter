@@ -196,4 +196,19 @@ li {
   text-align: center;
 }
 
+.title {
+  font-size: 25px;
+  font-family: monospace;
+  color: royalblue;
+  font-weight: 100;
+  line-height: 72px;
+  text-align: center;
+}
+
+.content {
+  font-size: 18px;
+  font-family: sans-serif;
+  font-weight: 100;
+  line-height: 72px;
+}
 /* app container */

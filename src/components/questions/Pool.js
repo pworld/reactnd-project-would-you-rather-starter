@@ -11,9 +11,9 @@ class Pool extends Component {
   }
 
   render() {
-    const {questions, users} = this.props
+    const {questions, users, authedUser} = this.props
     const qid = this.state.qid
-    const question = PoolFormat(questions, users, qid)
+    const question = PoolFormat(questions, users, qid, authedUser)
   
     return (
       <Container>
@@ -29,7 +29,7 @@ class Pool extends Component {
           <Col md={{ span: 9}}>
             <Form>
               <Form.Group as={Row}>
-                <Form.Label>
+                <Form.Label className="content">
                   Asked By {question.name}
                 </Form.Label>
               </Form.Group>
@@ -40,13 +40,16 @@ class Pool extends Component {
               </Form.Group>
               <fieldset>
                 <Form.Group as={Row}>
-                  <Form.Label as="legend" column sm={6}>
+                  <Form.Label as="legend" column sm={12}>
                     {question.optionOne}
                   </Form.Label>
-                  <Col sm={10}>
+                  <Col sm={9}>
                     <ProgressBar now={question.optionOnePercentage} 
                       label={`${question.optionOnePercentage}%`} />
                     {question.optionOneText}
+                  </Col>
+                  <Col sm={3}>
+                    {question.optionOneSelected}
                   </Col>
                 </Form.Group>
               </fieldset>
@@ -55,10 +58,13 @@ class Pool extends Component {
                   <Form.Label as="legend" column sm={6}>
                     {question.optionTwo}
                   </Form.Label>
-                  <Col sm={10}>
-                  <ProgressBar now={question.optionTwoPercentage} 
-                      label={`${question.optionTwoPercentage}%`} />
-                    {question.optionTwoText}
+                  <Col sm={9}>
+                    <ProgressBar now={question.optionTwoPercentage} 
+                        label={`${question.optionTwoPercentage}%`} />
+                      {question.optionTwoText}
+                  </Col>
+                  <Col sm={3}>
+                    {question.optionTwoSelected}
                   </Col>
                 </Form.Group>
               </fieldset>
@@ -70,8 +76,9 @@ class Pool extends Component {
   }
 }
 
-function mapStateToProps ({ users, questions }) {
+function mapStateToProps ({ authedUser, users, questions }) {
   return {
+    authedUser,
     users,
     questions
   }

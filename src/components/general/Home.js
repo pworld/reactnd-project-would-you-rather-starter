@@ -5,10 +5,8 @@ import { Tabs, Tab } from 'react-bootstrap'
 import Questions from '../questions/Questions'
 
 class Home extends Component {
-  
   render() {
     const {questionsCategory,history} = this.props
-
     return (
       <div>
 
@@ -17,7 +15,7 @@ class Home extends Component {
             <ul className='dashboard-list'>
               {questionsCategory.unAnswered && questionsCategory.unAnswered.map((qan) => (
                 <li key={qan.id}>
-                  <Questions questionAnswered={qan} history={history}/>
+                  <Questions questionAnswered={qan} history={history} type="unanswered"/>
                 </li>
               ))}
             </ul>
@@ -27,7 +25,7 @@ class Home extends Component {
               <ul className='dashboard-list'>
                 { questionsCategory.answered && questionsCategory.answered.map((qa) => (
                   <li key={qa.id}>
-                    <Questions questionAnswered={qa} history={history} />
+                    <Questions questionAnswered={qa} history={history} type="answered"/>
                   </li>
                 ))}
               </ul>

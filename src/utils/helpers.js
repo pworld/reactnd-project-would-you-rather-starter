@@ -47,9 +47,11 @@ export function leaderboardsFormat (users) {
   return scoreUsersSort
 }
 
-export function PoolFormat (questions, users, qid) {
+export function PoolFormat (questions, users, qid, authedUser) {
   const question = questions[qid]
   const author = question.author
+  const optionSelected = question.optionOne.votes.filter(q => q === authedUser.id).length > 0 ?
+    'optionOne' : 'optionTwo'
 
   return {
     author: question.author,
@@ -60,5 +62,7 @@ export function PoolFormat (questions, users, qid) {
     optionTwoText: question.optionTwo.votes.length > 0 ? `1 out of ${question.optionTwo.votes.length} votes` : `0 votes`,
     optionOnePercentage: question.optionOne.votes.length > 0 ? Math.round( (1 / question.optionOne.votes.length) * 100 ) : 0,
     optionTwoPercentage: question.optionTwo.votes.length > 0 ? Math.round( (1 / question.optionTwo.votes.length) * 100 ) : 0,
+    optionOneSelected: optionSelected === 'optionOne' ? 'Your Voted':null,
+    optionTwoSelected: optionSelected === 'optionTwo' ? 'Your Voted':null,
   }
 }

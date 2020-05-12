@@ -23,7 +23,7 @@ class Leaderboard extends Component {
               />
             </Col>
             <Col md={{ span: 6}} className="app-container-list">
-              <span>{leaderboard.name} asks:</span>
+              <label class="form-label title">{leaderboard.name} asks:</label>
               <div className="app-container-component">
                 <p className="justify-content-md-center">Answeres Questions: {leaderboard.answeredQuestion}</p>
                 <p className="justify-content-md-center">Created Questions: {leaderboard.createdQuestion}</p>

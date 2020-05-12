@@ -9,6 +9,7 @@ export const ADD_ANSWER = 'ADD_ANSWER'
 export const ADD_USER_ANSWER = 'ADD_USER_ANSWER'
 export const RECEIVE_QUESTIONS_ANSWERED = 'RECEIVE_QUESTIONS_ANSWERED'
 export const RECEIVE_QUESTIONS_NOT_ANSWERED = 'RECEIVE_QUESTIONS_NOT_ANSWERED'
+export const ADD_QUESTIONS_CATEGORY = 'ADD_QUESTIONS_CATEGORY'
 
 function addQuestion (question) {
   return {
@@ -54,6 +55,13 @@ export function receiveQuestionsNotAnswered (questionsNotAnswered) {
   }
 }
 
+export function addQuestionCategory (question) {
+  return {
+    type: ADD_QUESTIONS_CATEGORY,
+    question,
+  }
+}
+
 export function handleAddQuestion (optionOneText, optionTwoText, author) {
   return (dispatch, getState) => {
     const { questionsCategory } = getState()
@@ -65,13 +73,14 @@ export function handleAddQuestion (optionOneText, optionTwoText, author) {
     return saveQuestion(info)
     .then((question) => {
 
-      // Push to props answered and not answered category
+      // Push to props answered and unanswered category
       questionsCategory.unAnswered.push(question)
       sortTime(questionsCategory.answered)
       sortTime(questionsCategory.unAnswered)
 
       // Push to props Questions
       dispatch(addQuestion(question))
+      dispatch(addQuestionCategory(question))
     }).then(() => dispatch(hideLoading()))
   }
 }
@@ -94,12 +103,13 @@ export function handleAddAnswer (authedUser, qid, answer) {
         const newQuestion = res.questions[qid]
         questionsCategory.answered.push(newQuestion)
 
-        // Remove answered question from not answered category
+        // Remove answered question from unanswered category
         const questionsCategoryNA = questionsCategory.unAnswered.filter(qc => qc.id !== qid)
         questionsCategory.unAnswered = questionsCategoryNA
 
         sortTime(questionsCategory.answered)
         sortTime(questionsCategory.unAnswered)
+        dispatch(addQuestionCategory(newQuestion))
 
         // Push to props Authenticated user
         const userLoggedin = res.users[authedUser]

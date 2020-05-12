@@ -31,15 +31,12 @@ class NewQuestions extends Component {
     e.preventDefault()
 
     const { optionOne, optionTwo } = this.state
-    const { dispatch, authedUser } = this.props
+    const { history, authedUser,submitHandleAddQuestion } = this.props
 
-    dispatch(handleAddQuestion(optionOne, optionTwo, authedUser.id))
-
-    this.setState(() => ({
-      optionOne: '',
-      optionTwo: '',
-    }))
+    submitHandleAddQuestion(history, optionOne, optionTwo, authedUser)
+    history.push('/')
   }
+
   render() {
     const { optionOne, optionTwo } = this.state
     return (
@@ -71,7 +68,7 @@ class NewQuestions extends Component {
                   </Col>
                 </Form.Group>
                 <Form.Group as={Row}>
-                <Button type='submit' disabled={optionOne === '' && optionTwo === '' && optionOne === optionTwo}>Submit</Button>
+                <Button type='submit' disabled={optionOne === '' || optionTwo === '' || optionOne === optionTwo}>Submit</Button>
                 </Form.Group>
               </fieldset>
             </Form>
@@ -88,4 +85,12 @@ function mapStateToProps ({ authedUser }) {
   }
 }
 
-export default connect(mapStateToProps)(NewQuestions)
+const mapDispatchToProps = (dispatch) => {
+  return({
+    submitHandleAddQuestion: (history, optionOne, optionTwo, authedUser) => {
+      dispatch(handleAddQuestion(optionOne, optionTwo, authedUser.id))
+    }
+  })
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(NewQuestions)
