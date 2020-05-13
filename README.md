@@ -2,9 +2,9 @@
 
 This projects contain simple choice game between two options.
 Default User:
-1. username: sarahedo password: password
-2. username: tylermcginnis password: password
-3. username: johndoe password: password
+1. username: sarahedo | password: password
+2. username: tylermcginnis | password: password
+3. username: johndoe | password: password
 
 User can create User and login using that informations
 

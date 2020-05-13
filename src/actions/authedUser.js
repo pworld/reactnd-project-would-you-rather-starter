@@ -29,7 +29,6 @@ export function stateLogin (users, user, password, questions) {
 
 export function signout (value) {
   return (dispatch) => {
-    console.log(value)
     localStorage.removeItem('loggedin')
     dispatch(setAuthedUser(value))
   }
