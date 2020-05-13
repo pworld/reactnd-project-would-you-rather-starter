@@ -112,7 +112,7 @@ export function handleAddAnswer (authedUser, qid, answer) {
         dispatch(addQuestionCategory(newQuestion))
 
         // Push to props Authenticated user
-        const userLoggedin = res.users[authedUser]
+        const userLoggedin = res.users[authedUser.id]
         dispatch(setAuthedUser(userLoggedin))
         localStorage.setItem('loggedin',JSON.stringify(userLoggedin))
       })

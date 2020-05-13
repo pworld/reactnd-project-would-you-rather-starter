@@ -1,39 +1,45 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Select from 'react-select';
+import Select from 'react-select'
+import { Link } from 'react-router-dom'
 import {Container, Row, Col, Button, Form} from 'react-bootstrap';
 
-import { handleAnsweredQuestion } from '../../actions/questions'
 import { stateLogin } from '../../actions/authedUser'
-import { getUser } from '../../utils/helpers'
 
 import logo from '../../logo.svg'
 
 class Login extends Component {
   state = {
     selectedOption: null,
+    password: ''
   }
   handleChange = selectedOption => {
     this.setState(
       { selectedOption }
     );
   }
-  handleSubmit = (e,selectUsers) => {
+  handleChangePassword = (e) => {
+    const text = e.target.value
+    this.setState(
+      { password: text }
+    );
+  }
+  handleSubmit = (e) => {
     e.preventDefault()
 
-    const { selectedOption } = this.state
+    const { selectedOption, password } = this.state
     const { dispatch, users, questions } = this.props
 
-    const user = getUser(selectedOption.value, users)
+    const isLoggedIn = dispatch(stateLogin(users, selectedOption.value, password, questions))
 
-    localStorage.setItem('loggedin',JSON.stringify(user))
-    dispatch(stateLogin(user))
-    dispatch(handleAnsweredQuestion(user, questions))
-
-    this.props.history.push('/')
+    if(isLoggedIn){
+      this.props.history.push('/')
+    }else{
+      alert('login failed')
+    }
   }
   render() {
-    const { selectedOption } = this.state
+    const { selectedOption, password } = this.state
     const { users } = this.props
 
     let selectUsers = []
@@ -44,26 +50,47 @@ class Login extends Component {
 
     return (
       <Container>
-        <Row className="justify-content-md-center">
-          <Form className='md-12' onSubmit={(e) => this.handleSubmit(e,selectUsers)}>
-            <Form.Group as={Row} className="justify-content-md-center">
-              <img src={logo} className="App-logo" alt="logo" />
-            </Form.Group>
-            <Form.Group as={Row} className="justify-content-md-center">
-              <Col sm={12}>
-                <Select
-                value={selectedOption}
-                onChange={this.handleChange}
-                options={selectUsers}
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row}>
-              <Col sm={12}>
-                <Button variant="primary" type='submit' disabled={this.state.selectedOption === null}>Signin</Button>
-              </Col>
-            </Form.Group>
-        </Form>
+        <Row>
+          <Col md={{ span: 6,offset:3}} className="justify-content-md-center">
+            <Form className='md-12' onSubmit={(e) => this.handleSubmit(e,selectUsers)}>
+              <Form.Group as={Row} className="justify-content-md-center">
+                <img src={logo} className="App-logo" alt="logo" />
+              </Form.Group>
+              <Form.Group as={Row} className="justify-content-md-center">
+                <Col sm={12}>
+                  <Select
+                    value={selectedOption}
+                    onChange={this.handleChange}
+                    options={selectUsers}
+                    />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="justify-content-md-center">
+                <Col sm={12}>
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Control 
+                    type="password" 
+                    placeholder="Please Fill Password. default:'password'" 
+                    value={password}
+                    onChange={(e) => {this.handleChangePassword(e)}}
+                    />
+                </Form.Group>
+                </Col>
+              </Form.Group>
+
+              <Form.Group as={Row}>
+                <Col sm={12}>
+                <Form.Label><Link to='/register'>Click for Register</Link></Form.Label>
+                </Col>
+              </Form.Group>
+
+              <Form.Group as={Row}>
+                <Col sm={12}>
+                  <Button variant="primary" type='submit' disabled={this.state.selectedOption === null}>Signin</Button>
+                </Col>
+              </Form.Group>
+            </Form>
+          </Col>
         </Row>
       </Container>
     )

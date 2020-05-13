@@ -6,6 +6,7 @@ import {Container, Row, Col} from 'react-bootstrap';
 import Navigation from "./general/Navigation"
 import Login from "./general/Login"
 import Home from "./general/Home"
+import Register from "./general/Register"
 import NewQuestion from "./questions/NewQuestion"
 import QuestionAnswer from "./questions/QuestionAnswer"
 import Pool from "./questions/Pool"
@@ -33,6 +34,7 @@ class AppComponent extends Component {
       menu = (
         <div className='container'>
           <Route path='/login' render={({ history }) => ( <Login history={history} /> )} />
+          <Route exact path='/register' component={Register} />
         </div>
       )
     }

@@ -66,3 +66,17 @@ export function PoolFormat (questions, users, qid, authedUser) {
     optionTwoSelected: optionSelected === 'optionTwo' ? 'Your Voted':null,
   }
 }
+
+export function userFormat (name, password) {
+  const id = name.replace(/[^A-Z0-9]/ig, "")
+  return {
+    [id]: {
+      id : id,
+      name: name,
+      password: password,
+      avatarURL: '',
+      answers: {},
+      questions: []
+    }
+  }
+}

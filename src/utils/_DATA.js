@@ -2,6 +2,7 @@ let users = {
   sarahedo: {
     id: 'sarahedo',
     name: 'Sarah Edo',
+    password: 'password',
     avatarURL: '',
     answers: {
       "8xf0y6ziyjabvozdd253nd": 'optionOne',
@@ -14,6 +15,7 @@ let users = {
   tylermcginnis: {
     id: 'tylermcginnis',
     name: 'Tyler McGinnis',
+    password: 'password',
     avatarURL: '',
     answers: {
       "vthrdm985a262al8qx3do": 'optionOne',
@@ -24,6 +26,7 @@ let users = {
   johndoe: {
     id: 'johndoe',
     name: 'John Doe',
+    password: 'password',
     avatarURL: '',
     answers: {
       "xj352vofupe1dqz9emx13r": 'optionOne',
@@ -162,7 +165,9 @@ export function _saveQuestion (question) {
         ...users,
         [authedUser]: {
           ...users[authedUser],
-          questions: users[authedUser].questions.concat([formattedQuestion.id])
+          questions: users[authedUser].questions.length > 0 ? 
+            users[authedUser].questions.concat([formattedQuestion.id]): 
+            users[authedUser].questions.push(formattedQuestion.id)
         }
       }
 
@@ -176,12 +181,13 @@ export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
     setTimeout(() => {
       users = {
         ...users,
-        [authedUser]: {
-          ...users[authedUser],
+        [authedUser.id]: {
+          ...users[authedUser.id],
           answers: {
-            ...users[authedUser].answers,
+            ...users[authedUser.id].answers,
             [qid]: answer
-          }
+          },
+          questions: authedUser.questions
         }
       }
 
@@ -197,6 +203,18 @@ export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
       }
 
       res({users,questions})
+    }, 500)
+  })
+}
+
+export function _saveUser (user) {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      users = {
+        ...users,
+        ...user
+      }
+      res({users})
     }, 500)
   })
 }

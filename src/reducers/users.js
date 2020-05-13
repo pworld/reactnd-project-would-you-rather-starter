@@ -1,4 +1,4 @@
-import { RECEIVE_USERS } from '../actions/users'
+import { RECEIVE_USERS, ADD_USER } from '../actions/users'
 import { ADD_USER_ANSWER} from '../actions/questions'
 
 export default function users (state = {}, action) {
@@ -7,6 +7,12 @@ export default function users (state = {}, action) {
       return {
         ...state,
         ...action.users
+      }
+    case ADD_USER :
+      const {user} = action
+      return {
+        ...state,
+        ...user
       }
     case ADD_USER_ANSWER :
       return {

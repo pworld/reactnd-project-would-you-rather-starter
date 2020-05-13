@@ -3,15 +3,14 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import {Nav} from 'react-bootstrap';
 
-import { stateLogin } from '../../actions/authedUser'
+import { signout } from '../../actions/authedUser'
 
 class Navigation extends Component {
 
   handleClick(e) {
     e.preventDefault()
 
-    this.props.dispatch(stateLogin(null))
-    localStorage.clear()
+    this.props.dispatch(signout(null))
     this.props.history.push('/login')
   }
 
