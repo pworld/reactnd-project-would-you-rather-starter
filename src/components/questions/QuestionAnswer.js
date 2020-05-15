@@ -66,7 +66,7 @@ class QuestionAnswer extends Component {
                       id="answer"
                       value="optionOne" 
                       onChange={this.onSiteChanged}
-                      checked={true}
+                      checked={this.state.answer === "optionOne"}
                     />
                     <Form.Check
                       type="radio"
@@ -75,6 +75,7 @@ class QuestionAnswer extends Component {
                       id="answer"
                       value="optionTwo"
                       onChange={this.onSiteChanged}
+                      checked={this.state.answer === "optionTwo"}
                     />
                   </Col>
                   <Button variant="primary" onClick={this.onHandleSubmit}>Submit</Button>

@@ -45,7 +45,10 @@ class AppComponent extends Component {
           <Col><h3 className='center'>Woud You Rather?</h3></Col>
         </Row>
         <Row>
-          <Col md={{ span: 10, offset: 1 }}>{menu}</Col>
+          <Col md={{ span: 10, offset: 1 }}>
+            {menu}
+            <Route exact path='/no-match' component={Register} />  
+          </Col>
         </Row>
     </Container>
     )

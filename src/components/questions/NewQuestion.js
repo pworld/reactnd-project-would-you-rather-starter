@@ -31,9 +31,9 @@ class NewQuestions extends Component {
     e.preventDefault()
 
     const { optionOne, optionTwo } = this.state
-    const { history, authedUser,submitHandleAddQuestion } = this.props
+    const { history, authedUser, submitHandleAddQuestion } = this.props
 
-    submitHandleAddQuestion(history, optionOne, optionTwo, authedUser)
+    submitHandleAddQuestion(optionOne, optionTwo, authedUser)
     history.push('/')
   }
 
@@ -87,7 +87,7 @@ function mapStateToProps ({ authedUser }) {
 
 const mapDispatchToProps = (dispatch) => {
   return({
-    submitHandleAddQuestion: (history, optionOne, optionTwo, authedUser) => {
+    submitHandleAddQuestion: (optionOne, optionTwo, authedUser) => {
       dispatch(handleAddQuestion(optionOne, optionTwo, authedUser.id))
     }
   })

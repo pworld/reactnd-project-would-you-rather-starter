@@ -14,7 +14,7 @@ class App extends Component {
 
   // Redirect is user logged in
   renderRedirect = () => {
-    const isLogin = localStorage.getItem('loggedin')
+    const isLogin = this.props.authedUser
     if (isLogin !== null) {
       return <Redirect to='/' />
     }else{
@@ -35,4 +35,10 @@ class App extends Component {
   }
 }
 
-export default connect(null)(App)
+function mapStateToProps ({ authedUser }) {
+  return {
+    authedUser
+  }
+}
+
+export default connect(mapStateToProps)(App)
