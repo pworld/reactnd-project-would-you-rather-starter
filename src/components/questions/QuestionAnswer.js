@@ -23,10 +23,13 @@ class QuestionAnswer extends Component {
     e.preventDefault()
 
     const { answer, qid } = this.state
-    const { dispatch, authedUser } = this.props
+    const { dispatch, history, authedUser } = this.props
 
     dispatch(handleAddAnswer(authedUser, qid, answer))
-    this.props.history.push(`/pool/${qid}`)
+
+    setTimeout(() => {
+      history.push(`/questions/${qid}`)
+    }, 1500)
   }
 
   render() {

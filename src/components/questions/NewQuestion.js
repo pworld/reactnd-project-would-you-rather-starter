@@ -34,7 +34,10 @@ class NewQuestions extends Component {
     const { history, authedUser, submitHandleAddQuestion } = this.props
 
     submitHandleAddQuestion(optionOne, optionTwo, authedUser)
-    history.push('/')
+
+    setTimeout(() => {
+      history.push('/')
+    }, 1500)
   }
 
   render() {

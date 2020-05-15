@@ -20,9 +20,13 @@ export default function users (state = {}, action) {
         ...action.users
       }
     case ADD_USER_QUESTION :
+      const { question } = action
       return {
         ...state,
-        ...action.question
+        [question.author]: {
+          ...state[question.author],
+          questions: state[question.author].questions.concat([question.id])
+        }
       }
     default :
       return state

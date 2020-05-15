@@ -11,7 +11,7 @@ class Questions extends Component {
 
   render() {
     
-    const {questionAnswered, users, type} = this.props
+    const {questionAnswered, users } = this.props
     const userDetail = getUser(questionAnswered.author, users)
 
     const getTextAnswerPool = questionAnswered.optionOne.votes.filter(qa => qa === questionAnswered.author).length > 0 ?
@@ -31,8 +31,7 @@ class Questions extends Component {
             <div className="app-container-component">
               <label className="form-label">{userDetail.name} asks, Would You Rather:</label>
               <p className="content">{getTextAnswerPool}</p>
-              { type === 'unanswered' && 
-              <Button variant="primary" onClick={(e) => this.handleClick(e, questionAnswered.id)}>View Pool</Button> }
+              <Button variant="primary" onClick={(e) => this.handleClick(e, questionAnswered.id)}>View Pool</Button>
             </div>
           </Col>
         </Row>

@@ -15,9 +15,7 @@ class App extends Component {
   // Redirect is user logged in
   renderRedirect = () => {
     const isLogin = this.props.authedUser
-    if (isLogin !== null) {
-      return <Redirect to='/' />
-    }else{
+    if (isLogin === null) {
       return <Redirect to='/login' />
     }
   }
@@ -35,7 +33,7 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({ authedUser }) {
+function mapStateToProps ({ authedUser  }) {
   return {
     authedUser
   }

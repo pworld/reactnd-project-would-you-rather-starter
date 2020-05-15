@@ -6,11 +6,12 @@ import Questions from '../questions/Questions'
 import {sortTime} from '../../utils/helpers'
 
 class Home extends Component {
+
   render() {
     const {authedUser, history, questions} = this.props
 
-    const questionsAnswered = sortTime(Object.values(questions).filter(question => authedUser.questions.includes(question.id)))
-    const questionsUnAnswered = sortTime(Object.values(questions).filter(question => !authedUser.questions.includes(question.id)))
+    const questionsAnswered = sortTime(Object.values(questions).filter(question => authedUser.answers[question.id]))
+    const questionsUnAnswered = sortTime(Object.values(questions).filter(question => !authedUser.answers[question.id]))
 
     return (
       <div>

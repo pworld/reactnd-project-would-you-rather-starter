@@ -7,7 +7,7 @@ import { PoolFormat } from '../../utils/helpers'
 class Pool extends Component {
 
   state = {
-    qid:  this.props.location.pathname.replace("/pool/", "")
+    qid:  this.props.location.pathname.replace("/questions/", "")
   }
 
   render() {

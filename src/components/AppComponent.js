@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { Route, Switch } from 'react-router-dom'
 import {Container, Row, Col} from 'react-bootstrap';
 
 import Navigation from "./general/Navigation"
 import Login from "./general/Login"
 import Home from "./general/Home"
+import InvalidURL from "./general/invalidUrl"
 import Register from "./general/Register"
 import NewQuestion from "./questions/NewQuestion"
 import QuestionAnswer from "./questions/QuestionAnswer"
@@ -15,30 +15,6 @@ import Leaderboard from "./leaderboard/Leaderboard"
 class AppComponent extends Component {
 
   render() {
-    const {authedUser} = this.props
-    let menu = null
-
-    // Logged in menu validations
-    if(authedUser !== null ){
-      menu = (
-        <div className='container'>
-          <Route render={({ history }) => ( <Navigation history={history} /> )} /> 
-          <Route exact path='/' component={Home} />
-          <Route exact path='/add' component={NewQuestion} />
-          <Route exact path='/leaderboard' component={Leaderboard} />
-          <Route exact path='/question/:id' component={QuestionAnswer} />
-          <Route exact path='/pool/:id' component={Pool} />
-        </div>
-      )
-    }else{
-      menu = (
-        <div className='container'>
-          <Route path='/login' render={({ history }) => ( <Login history={history} /> )} />
-          <Route exact path='/register' component={Register} />
-        </div>
-      )
-    }
-
     return (
       <Container>
         <Row className="justify-content-md-center">
@@ -46,8 +22,17 @@ class AppComponent extends Component {
         </Row>
         <Row>
           <Col md={{ span: 10, offset: 1 }}>
-            {menu}
-            <Route exact path='/no-match' component={Register} />  
+          <Navigation />
+          <Switch>
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/register' component={Register} />
+            <Route exact default path='/' component={Home} />
+            <Route exact path='/add' component={NewQuestion} />
+            <Route exact path='/leaderboard' component={Leaderboard} />
+            <Route exact path='/question/:id' component={QuestionAnswer} />
+            <Route exact path='/questions/:question_id' component={Pool} />
+            <Route path="*" component={InvalidURL} />
+          </Switch>
           </Col>
         </Row>
     </Container>
@@ -55,10 +40,4 @@ class AppComponent extends Component {
   }
 }
 
-function mapStateToProps ({ authedUser }) {
-  return {
-    authedUser: authedUser
-  }
-}
-
-export default connect(mapStateToProps)(AppComponent)
+export default AppComponent

@@ -32,7 +32,9 @@ class Login extends Component {
 
     const isLoggedIn = dispatch(stateLogin(users, selectedOption.value, password, questions))
 
-    if(!isLoggedIn){
+    if(isLoggedIn){
+      this.props.history.push('/')
+    }else {
       alert('login failed')
     }
   }

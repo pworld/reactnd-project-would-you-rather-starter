@@ -212,3 +212,12 @@ li {
   line-height: 72px;
 }
 /* app container */
+
+.InvalidURL {
+  text-align: right;
+  margin-top: 10px;
+  font-size: 40px;  
+  font-weight: 100;
+  line-height: 72px;
+  color: #C3392A;
+}
