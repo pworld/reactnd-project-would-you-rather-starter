@@ -165,9 +165,7 @@ export function _saveQuestion (question) {
         ...users,
         [authedUser]: {
           ...users[authedUser],
-          questions: users[authedUser].questions.length > 0 ? 
-            users[authedUser].questions.concat([formattedQuestion.id]): 
-            users[authedUser].questions.push(formattedQuestion.id)
+          questions: users[authedUser].questions.concat([formattedQuestion.id])
         }
       }
 
@@ -179,6 +177,8 @@ export function _saveQuestion (question) {
 export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
   return new Promise((res, rej) => {
     setTimeout(() => {
+
+      const negateAnswer = answer === 'optionOne' ? 'optionTwo' : 'optionOne'
       users = {
         ...users,
         [authedUser.id]: {
@@ -197,7 +197,11 @@ export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
           ...questions[qid],
           [answer]: {
             ...questions[qid][answer],
-            votes: questions[qid][answer].votes.concat([authedUser])
+            votes: questions[qid][answer].votes.concat([authedUser.id])
+          },
+          [negateAnswer]: {
+            ...questions[qid][negateAnswer],
+            votes: questions[qid][negateAnswer].votes.filter(q => q !== authedUser.id)
           }
         }
       }

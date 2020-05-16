@@ -7,6 +7,7 @@ export const ADD_QUESTION = 'ADD_QUESTION'
 export const ADD_ANSWER = 'ADD_ANSWER'
 export const ADD_USER_ANSWER = 'ADD_USER_ANSWER'
 export const ADD_USER_QUESTION = 'ADD_USER_QUESTION'
+export const SET_AUTHED_QUESTION = 'SET_AUTHED_QUESTION'
 
 function addQuestion (question) {
   return {
@@ -38,6 +39,14 @@ function addUserQuestion (question) {
   }
 }
 
+function setAuthedQuestion (question) {
+  return {
+    type: SET_AUTHED_QUESTION,
+    question
+  }
+}
+
+
 export function receiveQuestions (questions) {
   return {
     type: RECEIVE_QUESTIONS,
@@ -58,6 +67,7 @@ export function handleAddQuestion (optionOneText, optionTwoText, author) {
       // Push to props Questions
       dispatch(addQuestion(question))
       dispatch(addUserQuestion(question))
+      dispatch(setAuthedQuestion(question))
 
     }).then(() => dispatch(hideLoading()))
   }

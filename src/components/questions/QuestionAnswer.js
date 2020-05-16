@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {Container, Row, Button, Col, Form } from 'react-bootstrap';
+import {Redirect} from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { handleAddAnswer } from '../../actions/questions'
@@ -7,8 +8,15 @@ import { handleAddAnswer } from '../../actions/questions'
 class QuestionAnswer extends Component {
 
   state = {
-    answer: 'optionOne',
+    answer: 'optionOne' ,
     qid:  this.props.location.pathname.replace("/question/", "")
+  }
+
+  setAnswer = (authedUser, questionID) => {
+    this.setState(() => ({
+      answer:authedUser.answers[questionID] ?
+            authedUser.answers[questionID] : 'optionOne'
+    }))
   }
 
   onSiteChanged = (e) => {
@@ -33,10 +41,16 @@ class QuestionAnswer extends Component {
   }
 
   render() {
-    const {questions} = this.props
+    const {questions, authedUser} = this.props
     const questionID = this.state.qid
     const question = questions[questionID]
-  
+
+    if( typeof authedUser === 'undefined'){
+      return (<Redirect to='/login' />)
+    }else if(typeof question === 'undefined'){
+      return (<Redirect to='/404' />)
+    }
+
     return (
       <Container>
 
@@ -92,7 +106,7 @@ class QuestionAnswer extends Component {
   }
 }
 
-function mapStateToProps ({ authedUser, questions }) {
+function mapStateToProps ({ authedUser, questions, location }) {
   return {
     authedUser,
     questions

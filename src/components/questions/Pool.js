@@ -55,7 +55,7 @@ class Pool extends Component {
               </fieldset>
               <fieldset>
                 <Form.Group as={Row}>
-                  <Form.Label as="legend" column sm={6}>
+                  <Form.Label as="legend" column sm={12}>
                     {question.optionTwo}
                   </Form.Label>
                   <Col sm={9}>
