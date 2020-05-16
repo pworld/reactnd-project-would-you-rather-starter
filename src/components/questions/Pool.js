@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import {Container, Row, Col, Form, ProgressBar } from 'react-bootstrap';
+import {Container, Row, Col, Form, ProgressBar } from 'react-bootstrap'
+import {Redirect} from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { PoolFormat } from '../../utils/helpers'
@@ -13,8 +14,15 @@ class Pool extends Component {
   render() {
     const {questions, users, authedUser} = this.props
     const qid = this.state.qid
+
+    if( typeof authedUser === 'undefined'){
+      return (<Redirect to='/login' />)
+    }else if(typeof questions[qid] === 'undefined'){
+      return (<Redirect to='/404' />)
+    }
+
     const question = PoolFormat(questions, users, qid, authedUser)
-  
+
     return (
       <Container>
 
