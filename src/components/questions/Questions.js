@@ -12,10 +12,12 @@ class Questions extends Component {
   render() {
     
     const {questionAnswered, users } = this.props
-    const userDetail = getUser(questionAnswered.author, users)
 
-    const getTextAnswerPool = questionAnswered.optionOne.votes.filter(qa => qa === questionAnswered.author).length > 0 ?
-      questionAnswered.optionOne.text : questionAnswered.optionTwo.text
+    const userDetail = getUser(questionAnswered.author, users)
+    const answer = typeof this.props.authedUser.answers[questionAnswered.id] !== 'undefined' ? 
+                    this.props.authedUser.answers[questionAnswered.id] : 'optionOne'
+
+    const getTextAnswerPool = questionAnswered[answer].text
 
     return (
       <Container>
@@ -40,9 +42,10 @@ class Questions extends Component {
   }
 }
 
-function mapStateToProps ({ users }) {
+function mapStateToProps ({ users, authedUser }) {
   return {
-    users
+    users,
+    authedUser
   }
 }
 

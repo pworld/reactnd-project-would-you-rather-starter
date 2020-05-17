@@ -8,8 +8,8 @@ import { handleAddAnswer } from '../../actions/questions'
 class QuestionAnswer extends Component {
 
   state = {
-    answer: 'optionOne' ,
-    qid:  this.props.location.pathname.replace("/question/", "")
+    answer: typeof this.props.authedUser.answers[this.props.match.params.id] !== 'undefined' ? 
+    this.props.authedUser.answers[this.props.match.params.id] : 'optionOne',
   }
 
   setAnswer = (authedUser, questionID) => {
@@ -42,7 +42,7 @@ class QuestionAnswer extends Component {
 
   render() {
     const {questions, authedUser} = this.props
-    const questionID = this.state.qid
+    const questionID = this.props.match.params.id
     const question = questions[questionID]
 
     if( typeof authedUser === 'undefined'){
