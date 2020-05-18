@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import { Tabs, Tab } from 'react-bootstrap'
 
 import Questions from '../questions/Questions'
@@ -9,6 +10,12 @@ class Home extends Component {
 
   render() {
     const {authedUser, history, questions} = this.props
+
+    if( authedUser === null){
+      return (<Redirect to='/login' />)
+    }else if(typeof questions === 'undefined'){
+      return (<Redirect to='/404' />)
+    }
 
     const questionsAnswered = sortTime(Object.values(questions).filter(question => authedUser.answers[question.id]))
     const questionsUnAnswered = sortTime(Object.values(questions).filter(question => !authedUser.answers[question.id]))

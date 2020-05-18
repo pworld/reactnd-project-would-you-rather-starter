@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Select from 'react-select'
-import { Link } from 'react-router-dom'
+import { Link,Redirect } from 'react-router-dom'
 import {Container, Row, Col, Button, Form} from 'react-bootstrap';
 
 import { stateLogin } from '../../actions/authedUser'
@@ -11,7 +11,8 @@ import logo from '../../logo.svg'
 class Login extends Component {
   state = {
     selectedOption: null,
-    password: ''
+    password: '',
+    redirectToReferrer: false
   }
   handleChange = selectedOption => {
     this.setState(
@@ -33,14 +34,22 @@ class Login extends Component {
     const isLoggedIn = dispatch(stateLogin(users, selectedOption.value, password, questions))
 
     if(isLoggedIn){
-      this.props.history.push('/')
+      this.setState(() => ({
+        redirectToReferrer: true
+      }))
     }else {
       alert('login failed')
     }
   }
   render() {
-    const { selectedOption, password } = this.state
+    const { selectedOption, password, redirectToReferrer } = this.state
     const { users } = this.props
+
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />
+    }
 
     let selectUsers = []
     for (let key in users) {

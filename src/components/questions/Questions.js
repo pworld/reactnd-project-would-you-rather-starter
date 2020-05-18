@@ -6,7 +6,7 @@ import { getUser } from '../../utils/helpers'
 class Questions extends Component {
   handleClick(e, id) {
     e.stopPropagation();
-    this.props.history.push(`/question/${id}`)
+    this.props.history.push(`/questions/${id}`)
   }
 
   render() {

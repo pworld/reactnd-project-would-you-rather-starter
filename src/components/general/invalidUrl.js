@@ -21,7 +21,7 @@ class InvalidURL extends Component {
               </Form.Group>
               <Form.Group as={Row} className="justify-content-md-center">
                 <Col sm={12}>
-                  <Link to="/login" className="btn btn-primary">Please Login First</Link>
+                  <Link to="/" className="btn btn-primary">Go To Home</Link>
                 </Col>
               </Form.Group>
             </Form>
